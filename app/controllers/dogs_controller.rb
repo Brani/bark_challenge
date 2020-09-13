@@ -25,6 +25,8 @@ class DogsController < ApplicationController
   # POST /dogs.json
   def create
     @dog = Dog.new(dog_params)
+
+    # establish ownership on create
     @dog.user = current_user
 
     respond_to do |format|
