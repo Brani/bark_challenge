@@ -1,4 +1,4 @@
-<%= render partial: 'thumbnail', collection: @dogs, as: :dog %>
+<%= render partial: 'thumbnail', collection: @dogs, as: :dog, dog_counter: 0 %>
 
 <div class="digg_pagination">
   <%= will_paginate @dogs %>
