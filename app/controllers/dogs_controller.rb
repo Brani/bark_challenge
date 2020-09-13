@@ -4,7 +4,7 @@ class DogsController < ApplicationController
   # GET /dogs
   # GET /dogs.json
   def index
-    @dogs = Dog.all
+    @dogs = Dog.paginate(page: params[:page], per_page: 5)
   end
 
   # GET /dogs/1
@@ -25,10 +25,13 @@ class DogsController < ApplicationController
   # POST /dogs.json
   def create
     @dog = Dog.new(dog_params)
+    @dog.user = current_user
 
     respond_to do |format|
       if @dog.save
-        @dog.images.attach(params[:dog][:image]) if params[:dog][:image].present?
+        if params[:dog][:image].present?
+          @dog.images.attach(params[:dog][:image])
+        end
 
         format.html { redirect_to @dog, notice: 'Dog was successfully created.' }
         format.json { render :show, status: :created, location: @dog }
@@ -43,8 +46,11 @@ class DogsController < ApplicationController
   # PATCH/PUT /dogs/1.json
   def update
     respond_to do |format|
+
       if @dog.update(dog_params)
-        @dog.images.attach(params[:dog][:image]) if params[:dog][:image].present?
+        if params[:dog][:image].present?
+          @dog.images.attach(params[:dog][:image])
+        end
 
         format.html { redirect_to @dog, notice: 'Dog was successfully updated.' }
         format.json { render :show, status: :ok, location: @dog }
