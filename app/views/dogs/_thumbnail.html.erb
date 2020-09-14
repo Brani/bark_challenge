@@ -1,6 +1,4 @@
-<% (dog_counter = dog_counter + 1) %>
-
-<% if (dog_counter - 1).even? &&  dog_counter > 1 %>
+<% if display_ad?(dog_counter) %>
   <%= image_tag("ad.jpg", class: "dog-photo") %>
 <% end %>
 
